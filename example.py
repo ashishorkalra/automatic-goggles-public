@@ -25,22 +25,22 @@ def main():
         "messages": [
             {
                 "role": "assistant",
-                "content": "Hi, this is Sophie, I'm a virtual assistant with CoJeer of Old Town, Alexandria. Our sales director is currently unavailable, but I am happy to answer any questions. Can you please tell me why you are calling, today?"
+                "content": "Hi, this is Marcus, I'm a customer service representative with TechFlow Solutions in Downtown Seattle. Our account manager is currently in a meeting, but I'm here to help with any questions. What can I assist you with today?"
             },
             {
                 "role": "user",
-                "content": "I'd like to speak to the salesperson, not an assistant."
+                "content": "I need to discuss my account billing issues."
             },
             {
                 "role": "assistant",
-                "content": "I understand you'd prefer to speak with a salesperson directly. I can help connect you with a team member. Would you like me to take your contact details so they can call you back, or would you prefer I escalate this for immediate assistance?"
+                "content": "I understand you have billing concerns. I can definitely help you with that. Let me pull up your account information. Can you please provide me with your account number or the email address associated with your account?"
             }
         ],
         "fields": [
             {
-                "field_name": "agent_name",
+                "field_name": "representative_name",
                 "field_type": "string",
-                "format_example": "John London"
+                "format_example": "Sarah Chen"
             }
         ]
     }

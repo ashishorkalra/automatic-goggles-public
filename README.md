@@ -29,18 +29,18 @@ data = {
     "messages": [
         {
             "role": "assistant",
-            "content": "Hi, this is Sophie, I'm a virtual assistant with CoJeer of Old Town, Alexandria."
+            "content": "Hi, this is Marcus, I'm a customer service representative with TechFlow Solutions in Downtown Seattle."
         },
         {
             "role": "user", 
-            "content": "I'd like to speak to the salesperson, not an assistant."
+            "content": "I need to discuss my account billing issues."
         }
     ],
     "fields": [
         {
-            "field_name": "agent_name",
+            "field_name": "representative_name",
             "field_type": "string",
-            "format_example": "John London"
+            "format_example": "Sarah Chen"
         }
     ]
 }
@@ -56,10 +56,10 @@ print(result)
 {
     "fields": [
         {
-            "field_name": "agent_name",
-            "field_value": "Sophie",
+            "field_name": "representative_name",
+            "field_value": "Marcus",
             "field_confidence": 0.95,
-            "field_reason": "Agent introduced herself as 'Sophie' at the beginning of the conversation"
+            "field_reason": "Representative introduced himself as 'Marcus' at the beginning of the conversation"
         }
     ]
 }

@@ -18,18 +18,18 @@ class TestTranscriptProcessor:
             "messages": [
                 {
                     "role": "assistant",
-                    "content": "Hi, this is Sophie from CoJeer."
+                    "content": "Hi, this is Marcus from TechFlow Solutions."
                 },
                 {
                     "role": "user",
-                    "content": "Hello Sophie, I need help."
+                    "content": "Hello Marcus, I need help with my billing."
                 }
             ],
             "fields": [
                 {
-                    "field_name": "agent_name",
+                    "field_name": "representative_name",
                     "field_type": "string",
-                    "format_example": "John Doe"
+                    "format_example": "Sarah Chen"
                 }
             ]
         }
@@ -87,8 +87,8 @@ class TestTranscriptProcessor:
         """Test processing with valid input"""
         # Mock DSPy response
         mock_result = Mock()
-        mock_result.field_value = "Sophie"
-        mock_result.reasoning = "Agent introduced herself as Sophie"
+        mock_result.field_value = "Marcus"
+        mock_result.reasoning = "Representative introduced himself as Marcus"
         mock_result.logprobs = None
         
         with patch('transtype.processor.dspy.Predict') as mock_predict:
@@ -99,8 +99,8 @@ class TestTranscriptProcessor:
             
             assert "fields" in result
             assert len(result["fields"]) == 1
-            assert result["fields"][0]["field_name"] == "agent_name"
-            assert result["fields"][0]["field_value"] == "Sophie"
+            assert result["fields"][0]["field_name"] == "representative_name"
+            assert result["fields"][0]["field_value"] == "Marcus"
 
 
 if __name__ == "__main__":

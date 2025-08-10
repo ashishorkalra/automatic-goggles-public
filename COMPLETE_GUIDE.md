@@ -59,21 +59,21 @@ processor = TranscriptProcessor(api_key="your-openai-api-key")
 # Input data format
 data = {
     "messages": [
-        {"role": "assistant", "content": "Hi, this is Sophie from CoJeer"},
-        {"role": "user", "content": "Hello, I need help"}
+        {"role": "assistant", "content": "Hi, this is Marcus from TechFlow Solutions"},
+        {"role": "user", "content": "Hello, I need help with my account"}
     ],
     "fields": [
         {
-            "field_name": "agent_name",
+            "field_name": "representative_name",
             "field_type": "string", 
-            "format_example": "John Doe"
+            "format_example": "Sarah Chen"
         }
     ]
 }
 
 # Process and get results
 result = processor.process(data)
-# Returns: {"fields": [{"field_name": "agent_name", "field_value": "Sophie", "field_confidence": 0.95, "field_reason": "..."}]}
+# Returns: {"fields": [{"field_name": "representative_name", "field_value": "Marcus", "field_confidence": 0.95, "field_reason": "..."}]}
 ```
 
 ## 📦 PyPI Release Steps
