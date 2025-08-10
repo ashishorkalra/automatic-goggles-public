@@ -1,8 +1,8 @@
-# Transtype Package - Complete Implementation Guide
+# Automatic Goggles Package - Complete Implementation Guide
 
 ## Package Overview
 
-**Transtype** is a Python package for extracting structured fields from call transcripts with confidence scores, similar to RetellAI's post-call processing functionality. It uses DSPy with OpenAI's GPT models and log probabilities to provide confidence estimates.
+**Automatic Goggles** is a Python package for extracting structured fields from call transcripts with confidence scores. It uses DSPy with OpenAI's GPT models and log probabilities to provide confidence estimates.
 
 ## ✅ Package Structure (Complete)
 
@@ -99,8 +99,8 @@ cd /Users/ashishkalra/Documents/repos/transcribing_project/transtype_1
 python -m build
 
 # This creates:
-# - dist/transtype-0.1.0.tar.gz (source)
-# - dist/transtype-0.1.0-py3-none-any.whl (wheel)
+# - dist/automatic_goggles-0.1.0.tar.gz (source)
+# - dist/automatic_goggles-0.1.0-py3-none-any.whl (wheel)
 ```
 
 ### Step 3: Test on TestPyPI
@@ -110,7 +110,7 @@ python -m build
 python -m twine upload --repository testpypi dist/*
 
 # Test installation
-pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ transtype
+pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ automatic-goggles
 ```
 
 ### Step 4: Release to PyPI
@@ -120,7 +120,7 @@ pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://
 python -m twine upload dist/*
 
 # Verify installation
-pip install transtype
+pip install automatic-goggles
 ```
 
 ## 🧩 Key Features Implemented
@@ -199,7 +199,7 @@ class FieldExtractionSignature(dspy.Signature):
 Once published to PyPI, users can install and use the package:
 
 ```bash
-pip install transtype
+pip install automatic-goggles
 ```
 
 ```python

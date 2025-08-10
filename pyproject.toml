@@ -3,7 +3,7 @@ requires = ["setuptools>=45", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "transtype"
+name = "automatic-goggles"
 version = "0.1.0"
 description = "A package for extracting structured fields from call transcripts with confidence scores"
 readme = "README.md"
@@ -39,10 +39,10 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/ashishorkalra/transtype"
-Repository = "https://github.com/ashishorkalra/transtype"
-Documentation = "https://github.com/ashishorkalra/transtype#readme"
-"Bug Reports" = "https://github.com/ashishorkalra/transtype/issues"
+Homepage = "https://github.com/ashishorkalra/automatic-goggles"
+Repository = "https://github.com/ashishorkalra/automatic-goggles"
+Documentation = "https://github.com/ashishorkalra/automatic-goggles#readme"
+"Bug Reports" = "https://github.com/ashishorkalra/automatic-goggles/issues"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

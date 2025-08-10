@@ -1,4 +1,4 @@
-# Deployment Guide for Transtype Package
+# Deployment Guide for Automatic Goggles Package
 
 ## Prerequisites
 
@@ -36,8 +36,8 @@ python -m build
 ```
 
 This creates:
-- `dist/transtype-0.1.0.tar.gz` (source distribution)
-- `dist/transtype-0.1.0-py3-none-any.whl` (wheel distribution)
+- `dist/automatic_goggles-0.1.0.tar.gz` (source distribution)
+- `dist/automatic_goggles-0.1.0-py3-none-any.whl` (wheel distribution)
 
 ### 4. Test the Package Locally
 
@@ -69,7 +69,7 @@ python -m venv test_env
 source test_env/bin/activate  # On Windows: test_env\Scripts\activate
 
 # Install from TestPyPI
-pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ transtype
+pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ automatic-goggles
 
 # Test the installation
 python -c "from transtype import TranscriptProcessor; print('Import successful!')"
@@ -88,7 +88,7 @@ python -m twine upload dist/*
 
 ```bash
 # Install from PyPI
-pip install transtype
+pip install automatic-goggles
 
 # Test
 python -c "from transtype import TranscriptProcessor; print('Package installed successfully!')"

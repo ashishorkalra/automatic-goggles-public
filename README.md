@@ -1,4 +1,4 @@
-# Transtype
+# Automatic Goggles
 
 A Python package for extracting structured fields from call transcripts with confidence scores using DSPy and OpenAI's language models.
 
@@ -13,7 +13,7 @@ A Python package for extracting structured fields from call transcripts with con
 ## Installation
 
 ```bash
-pip install transtype
+pip install automatic-goggles
 ```
 
 ## Quick Start
