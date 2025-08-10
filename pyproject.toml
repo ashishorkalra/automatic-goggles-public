@@ -7,18 +7,18 @@ name = "transtype"
 version = "0.1.0"
 description = "A package for extracting structured fields from call transcripts with confidence scores"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.9,<3.13"
 license = {text = "MIT"}
 authors = [
-    {name = "Your Name", email = "your.email@example.com"}
+    {name = "Ashish Kalra", email = "ashish.kalra@example.com"}
 ]
 keywords = ["transcript", "processing", "field extraction", "AI", "natural language processing"]
 classifiers = [
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Development Status :: 3 - Alpha",
@@ -27,7 +27,7 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
 dependencies = [
-    "dspy-ai>=2.3.7",
+    "dspy (==2.6.8)",
     "openai>=1.0.0",
     "pydantic>=2.0.0",
 ]
@@ -39,10 +39,10 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/yourusername/transtype"
-Repository = "https://github.com/yourusername/transtype"
-Documentation = "https://github.com/yourusername/transtype#readme"
-"Bug Reports" = "https://github.com/yourusername/transtype/issues"
+Homepage = "https://github.com/ashishorkalra/transtype"
+Repository = "https://github.com/ashishorkalra/transtype"
+Documentation = "https://github.com/ashishorkalra/transtype#readme"
+"Bug Reports" = "https://github.com/ashishorkalra/transtype/issues"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
