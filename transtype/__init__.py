@@ -5,5 +5,5 @@ Transtype - A package for extracting structured fields from call transcripts wit
 from .processor import TranscriptProcessor
 from .models import TranscriptInput, FieldDefinition, FieldResult, TranscriptOutput
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 __all__ = ["TranscriptProcessor", "TranscriptInput", "FieldDefinition", "FieldResult", "TranscriptOutput"]
