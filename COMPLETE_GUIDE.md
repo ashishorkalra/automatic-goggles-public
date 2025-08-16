@@ -53,8 +53,11 @@ python example.py
 ```python
 from transtype import TranscriptProcessor
 
-# Initialize with API key
+# Initialize with API key (with reasoning by default)
 processor = TranscriptProcessor(api_key="your-openai-api-key")
+
+# Or initialize without reasoning for faster processing
+processor_no_reason = TranscriptProcessor(api_key="your-openai-api-key", include_reasoning=False)
 
 # Input data format
 data = {
@@ -71,9 +74,13 @@ data = {
     ]
 }
 
-# Process and get results
+# Process and get results with reasoning
 result = processor.process(data)
 # Returns: {"fields": [{"field_name": "representative_name", "field_value": "Marcus", "field_confidence": 0.95, "field_reason": "..."}]}
+
+# Process without reasoning (faster, smaller response)
+result_no_reason = processor_no_reason.process(data)
+# Returns: {"fields": [{"field_name": "representative_name", "field_value": "Marcus", "field_confidence": 0.95, "field_reason": null}]}
 ```
 
 ## 📦 PyPI Release Steps
@@ -128,6 +135,7 @@ pip install automatic-goggles
 ### ✅ Core Functionality
 - **DSPy Integration**: Uses DSPy 2.3.7 with OpenAI GPT-4o
 - **Log Probabilities**: Extracts confidence scores from model outputs
+- **Optional Reasoning**: Control whether to include reasoning explanations for faster processing
 - **Field Extraction**: Currently supports string fields (extensible to enum, boolean, number)
 - **Pydantic Models**: Type-safe input/output validation
 - **Error Handling**: Graceful error handling and fallback confidence scores
@@ -156,6 +164,7 @@ The package calculates confidence scores by:
 
 ### DSPy Signature
 ```python
+# With reasoning (default)
 class FieldExtractionSignature(dspy.Signature):
     transcript: str = dspy.InputField(desc="The full conversation transcript")
     field_name: str = dspy.InputField(desc="Name of the field to extract")
@@ -164,6 +173,15 @@ class FieldExtractionSignature(dspy.Signature):
     
     field_value: str = dspy.OutputField(desc="The extracted value or 'NOT_FOUND'")
     reasoning: str = dspy.OutputField(desc="Explanation for the extraction")
+
+# Without reasoning (faster processing)  
+class FieldExtractionSignatureNoReasoning(dspy.Signature):
+    transcript: str = dspy.InputField(desc="The full conversation transcript")
+    field_name: str = dspy.InputField(desc="Name of the field to extract")
+    field_type: str = dspy.InputField(desc="Type of the field to extract")
+    format_example: str = dspy.InputField(desc="Example format for the field")
+    
+    field_value: str = dspy.OutputField(desc="The extracted value or 'NOT_FOUND'")
 ```
 
 ## 🔮 Future Enhancements
@@ -206,8 +224,13 @@ pip install automatic-goggles
 from transtype import TranscriptProcessor
 import os
 
+# With reasoning (default)
 processor = TranscriptProcessor(api_key=os.getenv("OPENAI_API_KEY"))
 result = processor.process(transcript_data)
+
+# Without reasoning (faster)
+processor_fast = TranscriptProcessor(api_key=os.getenv("OPENAI_API_KEY"), include_reasoning=False)
+result_fast = processor_fast.process(transcript_data)
 ```
 
 The package is now ready for PyPI release! All core functionality is implemented, tested, and documented.

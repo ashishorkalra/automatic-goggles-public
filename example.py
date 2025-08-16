@@ -18,7 +18,13 @@ def main():
             print("No API key provided. Exiting.")
             return
     
-    processor = TranscriptProcessor(api_key=api_key)
+    # Example 1: With reasoning (default behavior)
+    print("=== Example 1: With Reasoning (Default) ===")
+    processor_with_reasoning = TranscriptProcessor(api_key=api_key, include_reasoning=True)
+    
+    # Example 2: Without reasoning 
+    print("\n=== Example 2: Without Reasoning ===")
+    processor_without_reasoning = TranscriptProcessor(api_key=api_key, include_reasoning=False)
     
     # Example input data
     input_data = {
@@ -46,12 +52,15 @@ def main():
     }
     
     try:
-        # Process the transcript
-        result = processor.process(input_data)
+        # Process with reasoning
+        result_with_reasoning = processor_with_reasoning.process(input_data)
+        print("Extraction Result (with reasoning):")
+        print(json.dumps(result_with_reasoning, indent=2))
         
-        # Print the result
-        print("Extraction Result:")
-        print(json.dumps(result, indent=2))
+        # Process without reasoning
+        result_without_reasoning = processor_without_reasoning.process(input_data)
+        print("\nExtraction Result (without reasoning):")
+        print(json.dumps(result_without_reasoning, indent=2))
         
     except Exception as e:
         print(f"Error: {e}")

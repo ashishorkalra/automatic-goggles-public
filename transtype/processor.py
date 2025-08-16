@@ -21,16 +21,28 @@ class FieldExtractionSignature(dspy.Signature):
     reasoning: str = dspy.OutputField(desc="Detailed explanation of why this value was extracted or why it wasn't found")
 
 
+class FieldExtractionSignatureNoReasoning(dspy.Signature):
+    """Extract a specific field from a conversation transcript without reasoning."""
+    
+    transcript: str = dspy.InputField(desc="The full conversation transcript")
+    field_name: str = dspy.InputField(desc="Name of the field to extract")
+    field_type: str = dspy.InputField(desc="Type of the field to extract")
+    format_example: str = dspy.InputField(desc="Example format for the field")
+    
+    field_value: str = dspy.OutputField(desc="The extracted value for the field, or 'NOT_FOUND' if not present")
+
+
 class TranscriptProcessor:
     """Main processor class for extracting fields from transcripts"""
     
-    def __init__(self, api_key: str, model: str = "gpt-4o"):
+    def __init__(self, api_key: str, model: str = "gpt-4o", include_reasoning: bool = True):
         """
         Initialize the transcript processor
         
         Args:
             api_key: OpenAI API key
             model: Model to use (default: gpt-4o)
+            include_reasoning: Whether to include reasoning in the output (default: True)
         """
         self.lm = dspy.LM(
             f"openai/{model}",
@@ -38,7 +50,13 @@ class TranscriptProcessor:
             logprobs=True
         )
         dspy.settings.configure(lm=self.lm)
-        self.field_extractor = dspy.Predict(FieldExtractionSignature)
+        self.include_reasoning = include_reasoning
+        
+        # Initialize appropriate extractor based on reasoning requirement
+        if include_reasoning:
+            self.field_extractor = dspy.Predict(FieldExtractionSignature)
+        else:
+            self.field_extractor = dspy.Predict(FieldExtractionSignatureNoReasoning)
     
     def _format_transcript(self, messages: list) -> str:
         """Convert messages list to formatted transcript string"""
@@ -103,7 +121,7 @@ class TranscriptProcessor:
             
             # Extract the actual value and reasoning
             field_value = result.field_value.strip()
-            reasoning = result.reasoning.strip()
+            reasoning = result.reasoning.strip() if self.include_reasoning and hasattr(result, 'reasoning') else None
             
             # Check if field was found
             if field_value.upper() == "NOT_FOUND" or not field_value:
@@ -122,11 +140,12 @@ class TranscriptProcessor:
             
         except Exception as e:
             # Handle any errors gracefully
+            error_reason = f"Error during extraction: {str(e)}" if self.include_reasoning else None
             return FieldResult(
                 field_name=field_def["field_name"],
                 field_value=None,
                 field_confidence=0.0,
-                field_reason=f"Error during extraction: {str(e)}"
+                field_reason=error_reason
             )
     
     def process(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
@@ -146,17 +165,17 @@ class TranscriptProcessor:
             raise ValueError(f"Invalid input format: {str(e)}")
         
         # Convert messages to transcript format
-        transcript = self._format_transcript([msg.dict() for msg in validated_input.messages])
+        transcript = self._format_transcript([msg.model_dump() for msg in validated_input.messages])
         
         # Extract each field
         field_results = []
         for field_def in validated_input.fields:
-            field_result = self._extract_field(transcript, field_def.dict())
+            field_result = self._extract_field(transcript, field_def.model_dump())
             field_results.append(field_result)
         
         # Create output
         output = TranscriptOutput(fields=field_results)
-        return output.dict()
+        return output.model_dump()
     
     def process_json(self, json_input: str) -> str:
         """

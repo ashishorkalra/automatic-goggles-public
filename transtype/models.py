@@ -30,7 +30,7 @@ class FieldResult(BaseModel):
     field_name: str = Field(description="Name of the extracted field")
     field_value: Optional[str] = Field(description="Extracted value for the field")
     field_confidence: float = Field(description="Confidence score between 0 and 1", ge=0, le=1)
-    field_reason: str = Field(description="Explanation for the extracted value")
+    field_reason: Optional[str] = Field(default=None, description="Explanation for the extracted value (optional)")
 
 
 class TranscriptOutput(BaseModel):
