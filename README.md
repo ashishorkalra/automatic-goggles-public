@@ -5,6 +5,7 @@ A Python package for extracting structured fields from call transcripts with con
 ## Features
 
 - Extract structured fields from conversation transcripts
+- **Contextual field descriptions** - Provide detailed descriptions to improve extraction accuracy
 - Get confidence scores for extracted data using log probabilities
 - **Optional reasoning explanations** - Control performance and costs with the `include_reasoning` flag
 - Support for multiple field types (currently supports string fields)
@@ -41,7 +42,8 @@ data = {
         {
             "field_name": "representative_name",
             "field_type": "string",
-            "format_example": "Sarah Chen"
+            "format_example": "Sarah Chen",
+            "field_description": "The name of the customer service representative or agent who is helping the customer. This should be extracted from their introduction or when they identify themselves during the conversation."
         }
     ]
 }
@@ -49,6 +51,65 @@ data = {
 # Process the transcript
 result = processor.process(data)
 print(result)
+```
+
+## Field Definitions
+
+Each field to be extracted must include the following properties:
+
+- **`field_name`** (required): The name/identifier of the field to extract
+- **`field_type`** (required): The data type of the field (currently only "string" is supported)  
+- **`format_example`** (required): An example of the expected format for this field
+- **`field_description`** (required): Detailed context and description to help the AI understand what to extract. The more specific and contextual this description is, the better the extraction accuracy will be.
+
+> **Note**: Starting from version 2.0, `field_description` is a required field. If you're upgrading from an earlier version, you'll need to add descriptions to all your existing field definitions.
+
+### Example Field Definition
+
+```python
+{
+    "field_name": "customer_phone",
+    "field_type": "string", 
+    "format_example": "(555) 123-4567",
+    "field_description": "The customer's phone number mentioned during the call. This could be their primary contact number, callback number, or the number they're calling about. Look for 10-digit phone numbers in various formats."
+}
+```
+
+### Multiple Field Example
+
+```python
+data = {
+    "messages": [
+        {
+            "role": "assistant",
+            "content": "Hello, this is Sarah from TechSupport. How can I help you today?"
+        },
+        {
+            "role": "user",
+            "content": "Hi Sarah, I'm having issues with my account. My phone number is 555-123-4567 and my email is john.doe@example.com"
+        }
+    ],
+    "fields": [
+        {
+            "field_name": "agent_name",
+            "field_type": "string",
+            "format_example": "Sarah Chen",
+            "field_description": "The name of the customer service representative or support agent helping the customer. Usually mentioned in their introduction."
+        },
+        {
+            "field_name": "customer_phone",
+            "field_type": "string",
+            "format_example": "(555) 123-4567",
+            "field_description": "The customer's phone number mentioned during the conversation. Look for 10-digit numbers in formats like 555-123-4567, (555) 123-4567, or 5551234567."
+        },
+        {
+            "field_name": "customer_email", 
+            "field_type": "string",
+            "format_example": "customer@example.com",
+            "field_description": "The customer's email address provided during the call. Look for standard email format with @ symbol and domain."
+        }
+    ]
+}
 ```
 
 ## Reasoning Flag

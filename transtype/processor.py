@@ -16,6 +16,9 @@ class FieldExtractionSignature(dspy.Signature):
     field_name: str = dspy.InputField(desc="Name of the field to extract")
     field_type: str = dspy.InputField(desc="Type of the field to extract")
     format_example: str = dspy.InputField(desc="Example format for the field")
+    field_description: str = dspy.InputField(
+        desc="Context and description for the field"
+    )
 
     field_value: str = dspy.OutputField(
         desc="The extracted value for the field, or 'NOT_FOUND' if not present"
@@ -32,6 +35,9 @@ class FieldExtractionSignatureNoReasoning(dspy.Signature):
     field_name: str = dspy.InputField(desc="Name of the field to extract")
     field_type: str = dspy.InputField(desc="Type of the field to extract")
     format_example: str = dspy.InputField(desc="Example format for the field")
+    field_description: str = dspy.InputField(
+        desc="Context and description for the field"
+    )
 
     field_value: str = dspy.OutputField(
         desc="The extracted value for the field, or 'NOT_FOUND' if not present"
@@ -121,6 +127,7 @@ class TranscriptProcessor:
                 field_name=field_def["field_name"],
                 field_type=field_def["field_type"],
                 format_example=field_def["format_example"],
+                field_description=field_def["field_description"],
             )
 
             # Extract the actual value and reasoning
