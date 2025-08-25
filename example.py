@@ -5,15 +5,18 @@ This example demonstrates:
 1. Basic field extraction with optional reasoning
 2. Complex multi-field extraction including:
    - Names (agent and customer)
-   - Contact information (phone and email)
-   - Dates (incident, resolution, appointment dates)
+   - Contact information (phone and email - with updates)
+   - Dates (incident, resolution, and relative appointment dates)
    - Company information
-3. Comprehensive field descriptions for better extraction accuracy
-4. Processing with and without reasoning explanations
-5. Summary reporting of extraction results
+3. Relative date calculation for appointments (next Friday from incident date)
+4. Comprehensive field descriptions for better extraction accuracy
+5. Processing with and without reasoning explanations
+6. Summary reporting of extraction results
 
 The complex example showcases real-world scenarios like insurance claims,
-customer service calls, and appointment scheduling.
+customer service calls, and appointment scheduling with relative date logic.
+The appointment date demonstrates calculating "next Friday" relative to an
+incident date, simulating realistic business scheduling patterns.
 """
 
 import json
@@ -71,85 +74,93 @@ def main():
     # Example 3: Complex Multi-Field Example
     print("\n=== Example 3: Complex Multi-Field Extraction ===")
 
-    # Complex example with multiple field types
+    # Complex example with multiple field types and relative date functionality
     complex_input_data = {
         "messages": [
             {
                 "role": "assistant",
-                "content": "Good morning! This is Sarah Johnson from Premium Insurance Services. I'm calling to follow up on your recent claim. How are you doing today?",
+                "content": "Good morning! This is Jennifer Martinez from AutoClaim Solutions. I'm calling regarding your recent vehicle damage claim. How are you today?",
             },
             {
                 "role": "user",
-                "content": "Hi Sarah, I'm doing well. I've been waiting to hear back about my car insurance claim from the accident on March 15th, 2024.",
+                "content": "Hi Jennifer, I'm doing okay considering the circumstances. I submitted the claim for the accident that happened on December 8th, 2024.",
             },
             {
                 "role": "assistant",
-                "content": "I apologize for the delay. Let me pull up your file. Can you please confirm your contact information? I have your phone number as 555-123-4567 and email as john.smith@email.com. Is that correct?",
+                "content": "I understand, and I'm sorry to hear about your accident. Let me pull up your claim details. Can you verify your contact information? I show your phone as 415-789-2345 and your email as michael.torres@techcorp.com. Is this still current?",
             },
             {
                 "role": "user",
-                "content": "Yes, that's correct. My phone is 555-123-4567 and email is john.smith@email.com. When do you think this will be resolved?",
+                "content": "Actually, my phone number has changed. It's now 415-555-9876, but the email address michael.torres@techcorp.com is correct.",
             },
             {
                 "role": "assistant",
-                "content": "Thank you for confirming, Mr. Smith. Based on the adjuster's report, we should have this resolved by April 10th, 2024. You'll receive a check for the approved amount once everything is processed. Is there anything else I can help you with today?",
+                "content": "Perfect, I've updated your phone to 415-555-9876. Thank you, Mr. Torres. Now, regarding the resolution timeline, we expect to have everything finalized by January 15th, 2025. However, we do need to schedule an inspection appointment.",
             },
             {
                 "role": "user",
-                "content": "That sounds good, Sarah. Just to confirm - my appointment with the adjuster is scheduled for March 25th, 2024 at 2:00 PM, right?",
+                "content": "When would that inspection be? I hope it's soon so we can get this moving.",
             },
             {
                 "role": "assistant",
-                "content": "Let me check... Yes, that's correct. Your appointment with adjuster Mike Williams is confirmed for March 25th, 2024 at 2:00 PM. He'll meet you at the repair shop on Main Street.",
+                "content": "Absolutely! Since the accident was on December 8th, we always schedule inspections for the Friday of the following week. So your appointment will be next Friday from the incident date. Let me see... that would be perfect for our inspector's schedule.",
+            },
+            {
+                "role": "user",
+                "content": "So just to confirm - the appointment is next Friday after December 8th? And will this be with the same adjuster who handled my previous claim?",
+            },
+            {
+                "role": "assistant",
+                "content": "That's correct - next Friday after the incident date. And no, this will be with our specialist David Chen, not the previous adjuster. He'll meet you at the collision center on Oak Avenue at 10:30 AM.",
             },
         ],
         "fields": [
             {
                 "field_name": "agent_name",
                 "field_type": "string",
-                "format_example": "Sarah Johnson",
+                "format_example": "Jennifer Martinez",
                 "field_description": "The full name of the insurance agent, customer service representative, or company employee who is assisting the customer. Look for introductions like 'This is [Name] from [Company]' or when they identify themselves during the conversation.",
             },
             {
                 "field_name": "customer_name",
                 "field_type": "string",
-                "format_example": "John Smith",
-                "field_description": "The customer's full name or last name. This could be mentioned when the agent addresses them (e.g., 'Mr. Smith', 'Ms. Johnson') or when the customer introduces themselves. Look for formal address patterns and name references.",
+                "format_example": "Michael Torres",
+                "field_description": "The customer's full name or last name. This could be mentioned when the agent addresses them (e.g., 'Mr. Torres', 'Ms. Johnson') or when the customer introduces themselves. Look for formal address patterns and name references.",
             },
             {
                 "field_name": "customer_phone",
                 "field_type": "string",
-                "format_example": "(555) 123-4567",
-                "field_description": "The customer's phone number mentioned during the call. This could be their primary contact number, callback number, or verification number. Look for 10-digit numbers in formats like 555-123-4567, (555) 123-4567, 555.123.4567, or 5551234567.",
+                "format_example": "415-555-9876",
+                "field_description": "The customer's current phone number mentioned during the call. Pay attention to any updates or corrections to phone numbers during the conversation. Look for 10-digit numbers in formats like 415-555-9876, (415) 555-9876, or similar patterns.",
             },
             {
                 "field_name": "customer_email",
                 "field_type": "string",
-                "format_example": "customer@example.com",
-                "field_description": "The customer's email address provided or confirmed during the conversation. Look for standard email format with @ symbol and domain (e.g., john@email.com, customer@company.org). This might be mentioned for verification or contact purposes.",
+                "format_example": "michael.torres@techcorp.com",
+                "field_description": "The customer's email address provided or confirmed during the conversation. Look for standard email format with @ symbol and domain. This might be mentioned for verification or contact purposes.",
             },
             {
                 "field_name": "incident_date",
                 "field_type": "string",
-                "format_example": "March 15, 2024",
-                "field_description": "The date when the incident, accident, or event being discussed occurred. This could be mentioned as the claim date, accident date, or incident date. Look for dates in various formats like 'March 15, 2024', '03/15/2024', 'March 15th', or similar date references.",
+                "format_example": "December 8, 2024",
+                "field_description": "The exact date when the incident, accident, or event being discussed occurred. This is the base date for calculating other related dates. Look for dates mentioned as 'accident date', 'incident date', or when the event happened.",
             },
             {
                 "field_name": "resolution_date",
                 "field_type": "string",
-                "format_example": "April 10, 2024",
-                "field_description": "The expected or promised date when the issue, claim, or matter will be resolved or completed. This could be mentioned as 'resolved by', 'completed by', 'expected by', or similar future date references related to case resolution.",
+                "format_example": "January 15, 2025",
+                "field_description": "The expected or promised date when the issue, claim, or matter will be resolved or completed. This could be mentioned as 'resolved by', 'completed by', 'finalized by', or similar future date references related to case resolution.",
             },
             {
                 "field_name": "appointment_date",
                 "field_type": "string",
-                "format_example": "March 25, 2024",
-                "field_description": "Any scheduled appointment date mentioned during the conversation. This could be for inspections, meetings, follow-ups, or other scheduled activities. Look for dates associated with 'appointment', 'meeting', 'scheduled', or 'visit'.",
+                "format_example": "December 13, 2024",
+                "field_description": "The calculated appointment date that is always scheduled for 'next Friday' relative to the incident date. When the conversation mentions 'next Friday after the incident date' or 'Friday of the following week from the accident', calculate the actual date. For incident on December 8, 2024 (Sunday), next Friday would be December 13, 2024.",
             },
             {
                 "field_name": "company_name",
                 "field_type": "string",
-                "format_example": "Premium Insurance Services",
+                "format_example": "AutoClaim Solutions",
                 "field_description": "The name of the company, organization, or business that the agent represents. This is typically mentioned in the agent's introduction like 'calling from [Company Name]' or 'I'm with [Company Name]'.",
             },
         ],
