@@ -79,23 +79,23 @@ def main():
         "messages": [
             {
                 "role": "assistant",
-                "content": "Good morning! This is Jennifer Martinez from AutoClaim Solutions. I'm calling regarding your recent vehicle damage claim. How are you today?",
+                "content": "Good morning! This is Joan London from ABC Insurance Solutions. I'm calling regarding your recent vehicle damage claim. How are you today?",
             },
             {
                 "role": "user",
-                "content": "Hi Jennifer, I'm doing okay considering the circumstances. I submitted the claim for the accident that happened on December 8th, 2024.",
+                "content": "Hi Joan, I'm doing okay considering the circumstances. I submitted the claim for the accident that happened on August 11th, 2025.",
             },
             {
                 "role": "assistant",
-                "content": "I understand, and I'm sorry to hear about your accident. Let me pull up your claim details. Can you verify your contact information? I show your phone as 415-789-2345 and your email as michael.torres@techcorp.com. Is this still current?",
+                "content": "I understand, and I'm sorry to hear about your accident. Let me pull up your claim details. Can you verify your contact information? I show your phone as 217-218-1234 and your email as will.tis@gmail.com. Is this still current?",
             },
             {
                 "role": "user",
-                "content": "Actually, my phone number has changed. It's now 415-555-9876, but the email address michael.torres@techcorp.com is correct.",
+                "content": "Actually, my phone number has changed. It's now 217-918-2344, but the email address will.tis@gmail.com is correct.",
             },
             {
                 "role": "assistant",
-                "content": "Perfect, I've updated your phone to 415-555-9876. Thank you, Mr. Torres. Now, regarding the resolution timeline, we expect to have everything finalized by January 15th, 2025. However, we do need to schedule an inspection appointment.",
+                "content": "Perfect, I've updated your phone to 217-918-2344. Thank you, Mr. Tesco. Now, regarding the resolution timeline, we expect to have everything finalized by January 15th, 2026. However, we do need to schedule an inspection appointment.",
             },
             {
                 "role": "user",
@@ -103,15 +103,15 @@ def main():
             },
             {
                 "role": "assistant",
-                "content": "Absolutely! Since the accident was on December 8th, we always schedule inspections for the Friday of the following week. So your appointment will be next Friday from the incident date. Let me see... that would be perfect for our inspector's schedule.",
+                "content": "Absolutely! Since the accident was on August 11th, yesterday, we always schedule inspections for the Friday of the following week. So your appointment will be next week Friday from the incident date. Let me see... that would be perfect for our inspector's schedule.",
             },
             {
                 "role": "user",
-                "content": "So just to confirm - the appointment is next Friday after December 8th? And will this be with the same adjuster who handled my previous claim?",
+                "content": "So just to confirm - the appointment is the next week Friday after August 11 2025? And will this be with the same adjuster who handled my previous claim?",
             },
             {
                 "role": "assistant",
-                "content": "That's correct - next Friday after the incident date. And no, this will be with our specialist David Chen, not the previous adjuster. He'll meet you at the collision center on Oak Avenue at 10:30 AM.",
+                "content": "That's correct - next week Friday after the incident date. And no, this will be with our specialist David Chen, not the previous adjuster. He'll meet you at the collision center on Oak Avenue at 10:30 AM.",
             },
         ],
         "fields": [
@@ -148,14 +148,14 @@ def main():
             {
                 "field_name": "resolution_date",
                 "field_type": "string",
-                "format_example": "January 15, 2025",
+                "format_example": "January 15, 2024",
                 "field_description": "The expected or promised date when the issue, claim, or matter will be resolved or completed. This could be mentioned as 'resolved by', 'completed by', 'finalized by', or similar future date references related to case resolution.",
             },
             {
                 "field_name": "appointment_date",
                 "field_type": "string",
                 "format_example": "December 13, 2024",
-                "field_description": "The calculated appointment date that is always scheduled for 'next Friday' relative to the incident date. When the conversation mentions 'next Friday after the incident date' or 'Friday of the following week from the accident', calculate the actual date. For incident on December 8, 2024 (Sunday), next Friday would be December 13, 2024.",
+                "field_description": "The calculated appointment date that is always scheduled for 'next Friday' relative to the incident date. When the conversation mentions 'next week Friday after the incident date' or 'Friday of the following week from the accident', calculate the actual date. For incident on December 3, 2024 (Tuesday), next week Friday would be December 13, 2024.",
             },
             {
                 "field_name": "company_name",
