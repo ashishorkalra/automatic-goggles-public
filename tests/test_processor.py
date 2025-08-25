@@ -31,6 +31,7 @@ class TestTranscriptProcessor:
                     "field_name": "representative_name",
                     "field_type": "string",
                     "format_example": "Sarah Chen",
+                    "field_description": "The name of the customer service representative or agent who is helping the customer",
                 }
             ],
         }
@@ -92,6 +93,7 @@ class TestTranscriptProcessor:
                     "field_name": "test",
                     "field_type": "string",
                     "format_example": "example",
+                    "field_description": "A test field description",
                 }
             ],
         }

@@ -25,6 +25,9 @@ class FieldDefinition(BaseModel):
     format_example: str = Field(
         description="Example of the expected format for this field"
     )
+    field_description: str = Field(
+        description="Context and description for the field to help with extraction"
+    )
 
 
 class TranscriptInput(BaseModel):
