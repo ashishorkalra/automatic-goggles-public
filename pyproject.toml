@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "automatic-goggles"
-version = "0.3.0"
+version = "0.4.0"
 description = "A package for extracting structured fields from call transcripts with confidence scores"
 readme = "README.md"
 requires-python = ">=3.9,<3.13"
@@ -39,10 +39,10 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/ashishorkalra/automatic-goggles"
-Repository = "https://github.com/ashishorkalra/automatic-goggles"
-Documentation = "https://github.com/ashishorkalra/automatic-goggles#readme"
-"Bug Reports" = "https://github.com/ashishorkalra/automatic-goggles/issues"
+Homepage = "https://github.com/ashishorkalra/automatic-goggles-public"
+Repository = "https://github.com/ashishorkalra/automatic-goggles-public"
+Documentation = "https://github.com/ashishorkalra/automatic-goggles-public#readme"
+"Bug Reports" = "https://github.com/ashishorkalra/automatic-goggles-public/issues"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
