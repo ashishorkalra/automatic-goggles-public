@@ -6,8 +6,8 @@ with open("README.md", "r", encoding="utf-8") as fh:
 setup(
     name="automatic-goggles",
     version="0.3.0",
-    author="Ashish Kalra",
-    author_email="ashishorkalra@gmail.com",
+    author="Your Name",
+    author_email="your.email@example.com",
     description="A package for extracting structured fields from call transcripts with confidence scores",
     long_description=long_description,
     long_description_content_type="text/markdown",

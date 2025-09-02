@@ -127,3 +127,14 @@ dmypy.json
 # API Keys
 *.key
 api_keys.txt
+
+# Internal documentation (not for open source)
+DEPLOYMENT.md
+DEPLOYMENT-PUBLIC.md
+COMPLETE_GUIDE.md
+*-internal.md
+internal/
+docs/internal/
+
+# Configuration files with personal information
+setup.py

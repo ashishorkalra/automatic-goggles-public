@@ -6,4 +6,10 @@ from .processor import TranscriptProcessor
 from .models import TranscriptInput, FieldDefinition, FieldResult, TranscriptOutput
 
 __version__ = "0.3.0"
-__all__ = ["TranscriptProcessor", "TranscriptInput", "FieldDefinition", "FieldResult", "TranscriptOutput"]
+__all__ = [
+    "TranscriptProcessor",
+    "TranscriptInput",
+    "FieldDefinition",
+    "FieldResult",
+    "TranscriptOutput",
+]
