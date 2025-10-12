@@ -5,6 +5,7 @@ A Python package for extracting structured fields from call transcripts with con
 ## Features
 
 - Extract structured fields from conversation transcripts
+- **Evaluate conversation quality** with assertion-based scoring
 - **Contextual field descriptions** - Provide detailed descriptions to improve extraction accuracy
 - Get confidence scores for extracted data using log probabilities
 - **Optional reasoning explanations** - Control performance and costs with the `include_reasoning` flag
@@ -51,6 +52,37 @@ data = {
 # Process the transcript
 result = processor.process(data)
 print(result)
+```
+
+## Assertion Evaluation
+
+Evaluate conversation quality against specific criteria using the `AssertsEvaluator` class:
+
+```python
+from transtype import AssertsEvaluator
+
+# Initialize evaluator with evaluation steps
+evaluator = AssertsEvaluator(
+    api_key="your-openai-api-key",
+    evaluation_steps=[
+        "Did the agent ask for the caller's name?",
+        "Did the agent offer to help the caller?",
+        "Was the agent polite and professional?"
+    ],
+    threshold=0.7
+)
+
+# Evaluate conversation (supports both role/content and speaker/text formats)
+conversation = {
+    "messages": [
+        {"role": "user", "content": "Hi, I need help with my account"},
+        {"role": "assistant", "content": "Hello! I'd be happy to help. May I have your name?"}
+    ]
+}
+
+result = evaluator.evaluate(conversation)
+print(result)
+# Output: {"result": {"score": 0.85, "success": True, "reason": "..."}}
 ```
 
 ## Field Definitions
