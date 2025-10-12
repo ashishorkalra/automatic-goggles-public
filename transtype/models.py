@@ -54,3 +54,25 @@ class TranscriptOutput(BaseModel):
     """Output model for transcript processing results"""
 
     fields: List[FieldResult] = Field(description="List of extracted field results")
+
+
+class AssertionInput(BaseModel):
+    """Input model for assertion evaluation"""
+
+    messages: List[Message] = Field(description="List of messages in the conversation")
+
+
+class AssertionResult(BaseModel):
+    """Result for assertion evaluation"""
+
+    score: float = Field(description="Evaluation score between 0 and 1", ge=0, le=1)
+    reason: Optional[str] = Field(
+        default=None, description="Explanation for the evaluation score (optional)"
+    )
+    success: bool = Field(description="Whether the evaluation passed the threshold")
+
+
+class AssertionOutput(BaseModel):
+    """Output model for assertion evaluation results"""
+
+    result: AssertionResult = Field(description="Assertion evaluation result")
