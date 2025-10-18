@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "automatic-goggles"
-version = "0.5.0"
+version = "0.6.0"
 description = "A package for extracting structured fields from call transcripts and evaluating conversation quality with confidence scores"
 readme = "README.md"
 requires-python = ">=3.9,<3.13"
@@ -60,3 +60,12 @@ exclude_lines = [
     "raise AssertionError",
     "raise NotImplementedError",
 ]
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+line_length = 88

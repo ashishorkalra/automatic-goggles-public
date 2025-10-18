@@ -3,6 +3,7 @@ Data models for transtype package using Pydantic
 """
 
 from typing import List, Literal, Optional
+
 from pydantic import BaseModel, Field
 
 
@@ -66,6 +67,9 @@ class AssertionResult(BaseModel):
     """Result for assertion evaluation"""
 
     score: float = Field(description="Evaluation score between 0 and 1", ge=0, le=1)
+    confidence: float = Field(
+        description="Confidence score between 0 and 1", ge=0, le=1
+    )
     reason: Optional[str] = Field(
         default=None, description="Explanation for the evaluation score (optional)"
     )

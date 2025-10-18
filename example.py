@@ -21,6 +21,7 @@ incident date, simulating realistic business scheduling patterns.
 
 import json
 import os
+
 from transtype import TranscriptProcessor
 
 
