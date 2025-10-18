@@ -124,6 +124,11 @@ dmypy.json
 *.swp
 *.swo
 
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
 # API Keys
 *.key
 api_keys.txt
@@ -138,3 +143,6 @@ docs/internal/
 
 # Configuration files with personal information
 setup.py
+
+# Reference libraries (not for distribution)
+test-main/

@@ -4,15 +4,17 @@ Core processor for extracting fields from transcripts using DSPy
 
 import json
 import math
-from typing import Dict, Any, List, Optional
+from typing import Any, Dict, List, Optional
+
 import dspy
+
 from .models import (
-    TranscriptInput,
-    TranscriptOutput,
-    FieldResult,
     AssertionInput,
     AssertionOutput,
     AssertionResult,
+    FieldResult,
+    TranscriptInput,
+    TranscriptOutput,
 )
 
 
@@ -345,6 +347,88 @@ Be precise and reference specific parts of the conversation in your reasoning.""
         confidence = min(max(avg_prob, 0.1), 0.99)
         return round(confidence, 3)
 
+    def _generate_weighted_summed_score(
+        self, raw_score: int, logprobs_data
+    ) -> tuple[float, float]:
+        """Generate weighted score using logprobs similar to deepeval's conversationalGEval"""
+        try:
+            if not logprobs_data or not hasattr(logprobs_data, "content"):
+                return float(raw_score), 0.5
+
+            generated_logprobs = logprobs_data.content
+            score_logprobs = None
+
+            for token_logprobs in generated_logprobs:
+                if hasattr(token_logprobs, "token") and token_logprobs.token == str(
+                    raw_score
+                ):
+                    score_logprobs = token_logprobs
+                    break
+
+            if not score_logprobs or not hasattr(score_logprobs, "top_logprobs"):
+                return float(raw_score), 0.5
+
+            token_linear_probability = {}
+            sum_linear_probability = 0
+            min_logprob = math.log(0.01)
+
+            for token_logprob in score_logprobs.top_logprobs:
+                if not hasattr(token_logprob, "logprob"):
+                    continue
+
+                logprob = token_logprob.logprob
+
+                if logprob < min_logprob:
+                    continue
+
+                if (
+                    not hasattr(token_logprob, "token")
+                    or not token_logprob.token.replace(".", "").isdecimal()
+                ):
+                    continue
+
+                linear_prob = math.exp(logprob)
+
+                try:
+                    token_score = float(token_logprob.token)
+                    if token_score < 0 or token_score > 10:
+                        continue
+                except ValueError:
+                    continue
+
+                if token_score in token_linear_probability:
+                    token_linear_probability[token_score] += linear_prob
+                else:
+                    token_linear_probability[token_score] = linear_prob
+                sum_linear_probability += linear_prob
+
+            if sum_linear_probability == 0:
+                return float(raw_score), 0.5
+
+            sum_of_weighted_scores = sum(
+                score * prob for score, prob in token_linear_probability.items()
+            )
+            weighted_summed_score = sum_of_weighted_scores / sum_linear_probability
+
+            confidence = (
+                sum_linear_probability
+                / sum(
+                    math.exp(token_logprob.logprob)
+                    for token_logprob in score_logprobs.top_logprobs
+                    if (
+                        hasattr(token_logprob, "logprob")
+                        and token_logprob.logprob >= min_logprob
+                    )
+                )
+                if score_logprobs.top_logprobs
+                else 0.5
+            )
+
+            return weighted_summed_score, round(min(max(confidence, 0.1), 0.99), 3)
+
+        except Exception:
+            return float(raw_score), 0.5
+
     def _normalize_messages(
         self, messages: List[Dict[str, Any]]
     ) -> List[Dict[str, Any]]:
@@ -397,12 +481,10 @@ Be precise and reference specific parts of the conversation in your reasoning.""
         formatted_steps = self._format_evaluation_steps()
 
         try:
-            # Use DSPy to evaluate the transcript
             result = self.evaluator(
                 transcript=transcript, evaluation_steps=formatted_steps
             )
 
-            # Extract score and reasoning
             raw_score = result.score
             reasoning = (
                 result.reason.strip()
@@ -410,30 +492,28 @@ Be precise and reference specific parts of the conversation in your reasoning.""
                 else None
             )
 
-            # Normalize score to 0-1 range
-            normalized_score = max(0.0, min(1.0, raw_score / 10.0))
-
-            # Calculate confidence from logprobs if available
-            confidence = self._calculate_confidence_from_logprobs(result.logprobs)
-
-            # Determine success based on threshold
+            weighted_score, confidence = self._generate_weighted_summed_score(
+                raw_score, result.logprobs
+            )
+            normalized_score = max(0.0, min(1.0, weighted_score / 10.0))
             success = normalized_score >= self.threshold
 
-            # Create result
             assertion_result = AssertionResult(
-                score=round(normalized_score, 3), reason=reasoning, success=success
+                score=round(normalized_score, 3),
+                confidence=confidence,
+                reason=reasoning,
+                success=success,
             )
 
             output = AssertionOutput(result=assertion_result)
             return output.model_dump()
 
         except Exception as e:
-            # Handle errors gracefully
             error_reason = (
                 f"Error during evaluation: {str(e)}" if self.include_reasoning else None
             )
             assertion_result = AssertionResult(
-                score=0.0, reason=error_reason, success=False
+                score=0.0, confidence=0.0, reason=error_reason, success=False
             )
             output = AssertionOutput(result=assertion_result)
             return output.model_dump()

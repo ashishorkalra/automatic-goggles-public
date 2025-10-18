@@ -2,16 +2,16 @@
 Transtype - A package for extracting structured fields from call transcripts with confidence scores
 """
 
-from .processor import TranscriptProcessor, AssertsEvaluator
 from .models import (
-    TranscriptInput,
+    AssertionInput,
+    AssertionOutput,
+    AssertionResult,
     FieldDefinition,
     FieldResult,
+    TranscriptInput,
     TranscriptOutput,
-    AssertionInput,
-    AssertionResult,
-    AssertionOutput,
 )
+from .processor import AssertsEvaluator, TranscriptProcessor
 
 __version__ = "0.5.0"
 __all__ = [

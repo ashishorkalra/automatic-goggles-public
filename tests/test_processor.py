@@ -2,11 +2,12 @@
 Tests for the transtype package
 """
 
+from unittest.mock import MagicMock, Mock, patch
+
 import pytest
-import json
-from unittest.mock import Mock, patch, MagicMock
-from transtype import TranscriptProcessor, TranscriptInput, FieldDefinition
-from transtype.models import Message, FieldResult
+
+from transtype import TranscriptInput, TranscriptProcessor
+from transtype.models import FieldResult
 
 
 class TestTranscriptProcessor:

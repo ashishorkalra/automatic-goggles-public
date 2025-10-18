@@ -2,8 +2,8 @@
 Test script to validate package structure and imports without external dependencies
 """
 
-import sys
 import os
+import sys
 
 
 def test_package_structure():
@@ -34,13 +34,7 @@ def test_model_imports():
     print("\nTesting model imports...")
     try:
         sys.path.insert(0, ".")
-        from transtype.models import (
-            TranscriptInput,
-            FieldDefinition,
-            Message,
-            FieldResult,
-            TranscriptOutput,
-        )
+        from transtype.models import FieldResult, TranscriptInput, TranscriptOutput
 
         print("✓ All models imported successfully")
 
@@ -69,7 +63,7 @@ def test_model_imports():
             field_confidence=0.95,
             field_reason="Test reason",
         )
-        output = TranscriptOutput(fields=[field_result])
+        TranscriptOutput(fields=[field_result])
         print("✓ Output models work correctly")
 
     except ImportError as e:
