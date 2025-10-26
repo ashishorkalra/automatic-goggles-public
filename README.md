@@ -27,8 +27,8 @@
 Built for **voice agent post-call analysis**, customer support quality assurance, and conversational AI evaluation.
 
 ---
-
-## 🚀 Installation(#installation)
+[Go to Installation](#installation)
+## 🚀 Installation
 
 ```bash
 pip install automatic-goggles
