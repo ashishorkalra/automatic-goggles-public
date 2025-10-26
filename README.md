@@ -11,7 +11,7 @@
 
 *Extract structured fields from transcripts with confidence scores and evaluate conversation quality using Assertive LLM-as-a-Judge*
 
-[Documentation](#documentation) | [Installation](#installation) | [Quick Start](#examples) | [Features](#features) | [Examples](#examples)
+[Documentation](#-what-is-automatic-goggles) | [Installation](#-installation) | [Quick Start](#examples) | [Features](#features) | [Examples](#examples)
 
 </div>
 
