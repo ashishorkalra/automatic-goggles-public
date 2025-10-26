@@ -7,11 +7,11 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Downloads](https://pepy.tech/badge/automatic-goggles)](https://pepy.tech/project/automatic-goggles)
 
-**The Python Framework for Post-Call Analysis & Conversational Evaluation**
+**Post-Call Analysis & Conversational Evaluation**
 
-*Extract structured fields from transcripts with confidence scores and evaluate conversation quality using LLM-as-a-Judge*
+*Extract structured fields from transcripts with confidence scores and evaluate conversation quality using Assertive LLM-as-a-Judge*
 
-[Documentation](#documentation) | [Installation](#installation) | [Quick Start](#quick-start) | [Features](#features) | [Examples](#examples)
+[Documentation](#documentation) | [Installation](#installation) | [Quick Start](#examples) | [Features](#features) | [Examples](#examples)
 
 </div>
 
@@ -19,7 +19,7 @@
 
 ## 🎯 What is Automatic Goggles?
 
-**Automatic Goggles** is a lightweight, production-ready Python package for analyzing conversation transcripts using **DSPy** and **OpenAI's language models**. It provides two core capabilities:
+**Automatic Goggles** is a lightweight, production-ready Python package for analyzing conversation transcripts. It provides two core capabilities:
 
 1. **🔍 Field Extraction** - Extract structured data (names, emails, dates, custom fields) from transcripts with confidence scores
 2. **⚖️ Conversation Evaluation** - Assess conversation quality against custom assertions using LLM-as-a-Judge
@@ -37,6 +37,8 @@ pip install automatic-goggles
 ```
 
 Requires Python 3.8+
+
+## 🚀 Examples
 
 ### Field Extraction in 30 Seconds
 
