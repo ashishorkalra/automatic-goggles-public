@@ -219,7 +219,7 @@ MIT License - see [LICENSE](LICENSE) for details
 ## 📬 Contact & Support
 
 - **GitHub Issues**: [Report bugs or request features](https://github.com/ashishorkalra/automatic-goggles-public/issues)
-- **Email**: ashish@talkfurther.com
+- **Email**: ashishorkalra@gmail.com
 - **Package**: [PyPI - automatic-goggles](https://pypi.org/project/automatic-goggles/)
 
 ---
