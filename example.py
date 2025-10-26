@@ -11,7 +11,8 @@ This example demonstrates:
 3. Relative date calculation for appointments (next Friday from incident date)
 4. Comprehensive field descriptions for better extraction accuracy
 5. Processing with and without reasoning explanations
-6. Summary reporting of extraction results
+6. Conversation evaluation against custom criteria
+7. Summary reporting of extraction and evaluation results
 
 The complex example showcases real-world scenarios like insurance claims,
 customer service calls, and appointment scheduling with relative date logic.
@@ -22,7 +23,7 @@ incident date, simulating realistic business scheduling patterns.
 import json
 import os
 
-from transtype import TranscriptProcessor
+from transtype import AssertsEvaluator, TranscriptProcessor
 
 
 def main():
@@ -209,6 +210,54 @@ def main():
                 else field["field_value"]
             )
             print(f"  {field['field_name']}: {status} {confidence} - '{value}'")
+
+        # Example 4: Conversation Evaluation
+        print("\n" + "=" * 60)
+        print("CONVERSATION EVALUATION EXAMPLE")
+        print("=" * 60)
+
+        # Initialize evaluator with evaluation steps
+        evaluator = AssertsEvaluator(
+            api_key=api_key,
+            evaluation_steps=[
+                "Did the agent ask for the caller's name?",
+                "Did the agent offer to help the caller?",
+                "Was the agent polite and professional?",
+            ],
+            threshold=0.7,
+        )
+
+        # Evaluate conversation
+        evaluation_conversation = {
+            "messages": [
+                {"role": "user", "content": "Hi, I need help with my account"},
+                {
+                    "role": "assistant",
+                    "content": "Hello! I'd be happy to help. May I have your name?",
+                },
+                {"role": "user", "content": "My name is John Smith"},
+                {
+                    "role": "assistant",
+                    "content": "Thank you, Mr. Smith. Let me pull up your account information right away.",
+                },
+            ]
+        }
+
+        print("\nEvaluating conversation quality...")
+        eval_result = evaluator.evaluate(evaluation_conversation)
+        print("Evaluation Result:")
+        print(json.dumps(eval_result, indent=2))
+
+        # Display evaluation summary
+        print("\n" + "=" * 60)
+        print("EVALUATION SUMMARY")
+        print("=" * 60)
+        result_data = eval_result["result"]
+        print(f"\n📊 Score: {result_data['score']:.2f}")
+        print(f"📊 Confidence: {result_data['confidence']:.2f}")
+        print(f"✅ Success: {result_data['success']}")
+        if result_data.get("reason"):
+            print(f"\n💬 Reason: {result_data['reason']}")
 
         print("\n" + "=" * 60)
         print("All examples completed successfully!")
