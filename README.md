@@ -43,30 +43,53 @@ Requires Python 3.8+
 ```python
 from transtype import TranscriptProcessor
 
-# Initialize with your OpenAI API key
-processor = TranscriptProcessor(api_key="your-openai-api-key")
+processor = TranscriptProcessor(
+    api_key="your-openai-api-key",
+    include_reasoning=True  # Set False for faster/cheaper processing
+)
 
-# Define conversation and fields to extract
 data = {
     "messages": [
-        {"role": "assistant", "content": "Hi, this is Marcus from TechFlow Solutions."},
-        {"role": "user", "content": "I need help with my account."}
+        {"role": "assistant", "content": "My name is Sarah Chen, you can reach me at sarah@example.com"},
+        {"role": "user", "content": "Thanks, I'll email you"}
     ],
     "fields": [
         {
-            "field_name": "representative_name",
+            "field_name": "agent_email",
             "field_type": "string",
-            "format_example": "Sarah Chen",
-            "field_description": "Name of the customer service representative"
+            "format_example": "agent@company.com",
+            "field_description": "The agent's email address for follow-up communication"
+        },
+        {
+            "field_name": "agent_name",
+            "field_type": "string",
+            "format_example": "John Doe",
+            "field_description": "Full name of the customer service agent"
         }
     ]
 }
 
-# Extract fields
 result = processor.process(data)
-print(result)
-# Output: {'fields': [{'field_name': 'representative_name', 'field_value': 'Marcus', 
-#                      'field_confidence': 0.95, 'field_reason': '...'}]}
+```
+
+**Output:**
+```json
+{
+    "fields": [
+        {
+            "field_name": "agent_email",
+            "field_value": "sarah@example.com",
+            "field_confidence": 0.92,
+            "field_reason": "Email explicitly mentioned by agent"
+        },
+        {
+            "field_name": "agent_name",
+            "field_value": "Sarah Chen",
+            "field_confidence": 0.95,
+            "field_reason": "Agent introduced herself by name"
+        }
+    ]
+}
 ```
 
 ### Conversation Evaluation in 30 Seconds
@@ -74,27 +97,38 @@ print(result)
 ```python
 from transtype import AssertsEvaluator
 
-# Initialize with evaluation criteria
 evaluator = AssertsEvaluator(
     api_key="your-openai-api-key",
     evaluation_steps=[
-        "Did the agent ask for the caller's name?",
-        "Was the agent polite and professional?"
+        "Did the agent greet the customer politely?",
+        "Did the agent ask clarifying questions?",
+        "Did the agent resolve the customer's issue?",
+        "Did the agent offer additional help?"
     ],
-    threshold=0.7
+    threshold=0.7  # Pass threshold (0-1)
 )
 
-# Evaluate conversation
 conversation = {
     "messages": [
-        {"role": "user", "content": "Hi, I need help"},
-        {"role": "assistant", "content": "Hello! I'd be happy to help. May I have your name?"}
+        {"role": "user", "content": "My internet isn't working"},
+        {"role": "assistant", "content": "Good morning! I'm sorry to hear that. When did this issue start?"},
+        {"role": "user", "content": "This morning"},
+        {"role": "assistant", "content": "Let me help you troubleshoot. Can you check if your router is powered on?"}
     ]
 }
 
 result = evaluator.evaluate(conversation)
-print(result)
-# Output: {"result": {"score": 0.85, "success": True, "reason": "..."}}
+```
+
+**Output:**
+```json
+{
+    "result": {
+        "score": 0.88,
+        "success": true,
+        "reason": "Agent demonstrated professionalism, asked clarifying questions, and initiated troubleshooting"
+    }
+}
 ```
 
 ---
@@ -111,27 +145,14 @@ print(result)
 ### Conversation Evaluation
 - ✅ **LLM-as-a-Judge** - Research-backed evaluation using GPT models
 - ✅ **Custom Assertions** - Define your own quality criteria
-- ✅ **Weighted Scoring** - Confidence-weighted scores inspired by [DeepEval's ConversationalGEval](https://github.com/confident-ai/deepeval)
+- ✅ **Weighted Scoring** - Confidence-weighted scores
 - ✅ **Pass/Fail Thresholds** - Configurable success criteria
 - ✅ **Multi-Turn Support** - Evaluate entire conversations
 
 ### Technical Highlights
-- 🔧 Built on **DSPy** for robust LLM orchestration
 - ⚡ **Fast & Cost-Effective** - Optional reasoning for performance tuning
 - 🧪 **Production-Ready** - Confidence scores for reliability filtering
 - 📊 **Transparent** - Get reasoning explanations for every extraction/evaluation
-
----
-
-## 📦 What's New in v0.6.0
-
-### Enhanced Confidence-Weighted Scoring
-
-- **Added confidence field** to evaluation results for transparency
-- **Implemented weighted score calculation** using log probabilities (inspired by [DeepEval's ConversationalGEval](https://github.com/confident-ai/deepeval))
-- **More nuanced results** - Scores reflect model certainty
-
----
 
 ## 📚 Core Concepts
 
