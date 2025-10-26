@@ -28,9 +28,7 @@ Built for **voice agent post-call analysis**, customer support quality assurance
 
 ---
 
-## 🚀 Quick Start
-
-### Installation
+## 🚀 Installation
 
 ```bash
 pip install automatic-goggles
