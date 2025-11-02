@@ -64,14 +64,14 @@ processor = TranscriptProcessor(
     include_reasoning=True
 )
 
-data = {
+conversation = {
     "messages": [
         {"role": "assistant", "content": "My name is Sarah Chen, you can reach me at sarah@example.com"},
         {"role": "user", "content": "Thanks, I'll email you"}
     ]
 }
 
-result = processor.process(data)
+result = processor.process(conversation)
 ```
 
 **Output:**
