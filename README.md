@@ -1,6 +1,8 @@
-# Automatic Goggles
-
 <div align="center">
+
+<img src="docs/resources/image.png" alt="Automatic Goggles Logo" width="200"/>
+
+# Automatic Goggles
 
 [![PyPI version](https://badge.fury.io/py/automatic-goggles.svg)](https://badge.fury.io/py/automatic-goggles)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
