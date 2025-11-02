@@ -23,8 +23,19 @@
 
 **Automatic Goggles** is a lightweight, production-ready Python package for analyzing conversation transcripts. It provides two core capabilities:
 
-1. **🔍 Field Extraction** - Extract structured data (names, emails, dates, custom fields) from transcripts with confidence scores
-2. **⚖️ Conversation Evaluation** - Assess conversation quality against custom assertions using LLM-as-a-Judge
+### 1. 🔍 Field Extraction
+Extract structured data (names, emails, dates, custom fields) from transcripts with confidence scores
+
+<div align="center">
+<img src="docs/resources/fields_extraction.jpg" alt="Field Extraction" width="600"/>
+</div>
+
+### 2. ⚖️ Conversation Evaluation
+Assess conversation quality against custom assertions using LLM-as-a-Judge
+
+<div align="center">
+<img src="docs/resources/asserts_evaluation.jpg" alt="Asserts Evaluation" width="600"/>
+</div>
 
 Built for **voice agent post-call analysis**, customer support quality assurance, and conversational AI evaluation.
 
