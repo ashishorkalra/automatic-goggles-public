@@ -40,7 +40,7 @@ Assess conversation quality against custom assertions using LLM-as-a-Judge
 Built for **voice agent post-call analysis**, customer support quality assurance, and conversational AI evaluation.
 
 ---
-[Go to Installation](#installation)
+
 ## 🚀 Installation
 
 ```bash
