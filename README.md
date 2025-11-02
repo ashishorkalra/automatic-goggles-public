@@ -43,29 +43,31 @@ Requires Python 3.8+
 ```python
 from transtype import TranscriptProcessor
 
+fields = [
+    {
+        "field_name": "agent_email",
+        "field_type": "string",
+        "format_example": "agent@company.com",
+        "field_description": "The agent's email address for follow-up communication"
+    },
+    {
+        "field_name": "agent_name",
+        "field_type": "string",
+        "format_example": "John Doe",
+        "field_description": "Full name of the customer service agent"
+    }
+]
+
 processor = TranscriptProcessor(
     api_key="your-openai-api-key",
-    include_reasoning=True  # Set False for faster/cheaper processing
+    fields=fields,
+    include_reasoning=True
 )
 
 data = {
     "messages": [
         {"role": "assistant", "content": "My name is Sarah Chen, you can reach me at sarah@example.com"},
         {"role": "user", "content": "Thanks, I'll email you"}
-    ],
-    "fields": [
-        {
-            "field_name": "agent_email",
-            "field_type": "string",
-            "format_example": "agent@company.com",
-            "field_description": "The agent's email address for follow-up communication"
-        },
-        {
-            "field_name": "agent_name",
-            "field_type": "string",
-            "format_example": "John Doe",
-            "field_description": "Full name of the customer service agent"
-        }
     ]
 }
 

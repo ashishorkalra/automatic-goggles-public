@@ -86,21 +86,26 @@ class TranscriptProcessor:
     """Main processor class for extracting fields from transcripts"""
 
     def __init__(
-        self, api_key: str, model: str = "gpt-4o", include_reasoning: bool = True
+        self,
+        api_key: str,
+        fields: List[Dict[str, Any]],
+        model: str = "gpt-4o",
+        include_reasoning: bool = True,
     ):
         """
         Initialize the transcript processor
 
         Args:
             api_key: OpenAI API key
+            fields: List of field definitions to extract
             model: Model to use (default: gpt-4o)
             include_reasoning: Whether to include reasoning in the output (default: True)
         """
         self.lm = dspy.LM(f"openai/{model}", api_key=api_key, logprobs=True)
         dspy.settings.configure(lm=self.lm)
         self.include_reasoning = include_reasoning
+        self.fields = fields
 
-        # Initialize appropriate extractor based on reasoning requirement
         if include_reasoning:
             self.field_extractor = dspy.Predict(FieldExtractionSignature)
         else:
@@ -208,29 +213,25 @@ class TranscriptProcessor:
         Process transcript and extract all specified fields
 
         Args:
-            input_data: Dictionary containing messages and fields to extract
+            input_data: Dictionary containing messages
 
         Returns:
             Dictionary with extracted fields and confidence scores
         """
-        # Validate input using Pydantic
         try:
             validated_input = TranscriptInput(**input_data)
         except Exception as e:
             raise ValueError(f"Invalid input format: {str(e)}")
 
-        # Convert messages to transcript format
         transcript = self._format_transcript(
             [msg.model_dump() for msg in validated_input.messages]
         )
 
-        # Extract each field
         field_results = []
-        for field_def in validated_input.fields:
-            field_result = self._extract_field(transcript, field_def.model_dump())
+        for field_def in self.fields:
+            field_result = self._extract_field(transcript, field_def)
             field_results.append(field_result)
 
-        # Create output
         output = TranscriptOutput(fields=field_results)
         return output.model_dump()
 

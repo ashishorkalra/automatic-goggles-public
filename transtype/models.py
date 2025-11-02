@@ -35,7 +35,6 @@ class TranscriptInput(BaseModel):
     """Input model for transcript processing"""
 
     messages: List[Message] = Field(description="List of messages in the conversation")
-    fields: List[FieldDefinition] = Field(description="List of fields to extract")
 
 
 class FieldResult(BaseModel):
