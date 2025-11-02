@@ -1,6 +1,8 @@
-# Automatic Goggles
-
 <div align="center">
+
+<img src="docs/resources/image.png" alt="Automatic Goggles Logo" width="200"/>
+
+# Automatic Goggles
 
 [![PyPI version](https://badge.fury.io/py/automatic-goggles.svg)](https://badge.fury.io/py/automatic-goggles)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
@@ -21,13 +23,24 @@
 
 **Automatic Goggles** is a lightweight, production-ready Python package for analyzing conversation transcripts. It provides two core capabilities:
 
-1. **🔍 Field Extraction** - Extract structured data (names, emails, dates, custom fields) from transcripts with confidence scores
-2. **⚖️ Conversation Evaluation** - Assess conversation quality against custom assertions using LLM-as-a-Judge
+### 1. 🔍 Field Extraction
+Extract structured data (names, emails, dates, custom fields) from transcripts with confidence scores
+
+<div align="center">
+<img src="docs/resources/fields_extraction.jpg" alt="Field Extraction" width="600"/>
+</div>
+
+### 2. ⚖️ Conversation Evaluation
+Assess conversation quality against custom assertions using LLM-as-a-Judge
+
+<div align="center">
+<img src="docs/resources/asserts_evaluation.jpg" alt="Asserts Evaluation" width="600"/>
+</div>
 
 Built for **voice agent post-call analysis**, customer support quality assurance, and conversational AI evaluation.
 
 ---
-[Go to Installation](#installation)
+
 ## 🚀 Installation
 
 ```bash
@@ -43,33 +56,35 @@ Requires Python 3.8+
 ```python
 from transtype import TranscriptProcessor
 
+fields = [
+    {
+        "field_name": "agent_email",
+        "field_type": "string",
+        "format_example": "agent@company.com",
+        "field_description": "The agent's email address for follow-up communication"
+    },
+    {
+        "field_name": "agent_name",
+        "field_type": "string",
+        "format_example": "John Doe",
+        "field_description": "Full name of the customer service agent"
+    }
+]
+
 processor = TranscriptProcessor(
     api_key="your-openai-api-key",
-    include_reasoning=True  # Set False for faster/cheaper processing
+    fields=fields,
+    include_reasoning=True
 )
 
-data = {
+conversation = {
     "messages": [
         {"role": "assistant", "content": "My name is Sarah Chen, you can reach me at sarah@example.com"},
         {"role": "user", "content": "Thanks, I'll email you"}
-    ],
-    "fields": [
-        {
-            "field_name": "agent_email",
-            "field_type": "string",
-            "format_example": "agent@company.com",
-            "field_description": "The agent's email address for follow-up communication"
-        },
-        {
-            "field_name": "agent_name",
-            "field_type": "string",
-            "format_example": "John Doe",
-            "field_description": "Full name of the customer service agent"
-        }
     ]
 }
 
-result = processor.process(data)
+result = processor.process(conversation)
 ```
 
 **Output:**

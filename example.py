@@ -40,17 +40,28 @@ def main():
 
     # Example 1: Basic Example - With reasoning (default behavior)
     print("=== Example 1: Basic Example - With Reasoning (Default) ===")
+
+    # Field definitions for basic example
+    basic_fields = [
+        {
+            "field_name": "representative_name",
+            "field_type": "string",
+            "format_example": "Sarah Chen",
+            "field_description": "The name of the customer service representative or agent who is helping the customer. This should be extracted from their introduction or when they identify themselves during the conversation.",
+        }
+    ]
+
     processor_with_reasoning = TranscriptProcessor(
-        api_key=api_key, include_reasoning=True
+        api_key=api_key, fields=basic_fields, include_reasoning=True
     )
 
     # Example 2: Basic Example - Without reasoning
     print("\n=== Example 2: Basic Example - Without Reasoning ===")
     processor_without_reasoning = TranscriptProcessor(
-        api_key=api_key, include_reasoning=False
+        api_key=api_key, fields=basic_fields, include_reasoning=False
     )
 
-    # Basic example input data
+    # Basic example transcript data
     basic_input_data = {
         "messages": [
             {
@@ -63,20 +74,68 @@ def main():
                 "content": "I understand you have billing concerns. I can definitely help you with that. Let me pull up your account information. Can you please provide me with your account number or the email address associated with your account?",
             },
         ],
-        "fields": [
-            {
-                "field_name": "representative_name",
-                "field_type": "string",
-                "format_example": "Sarah Chen",
-                "field_description": "The name of the customer service representative or agent who is helping the customer. This should be extracted from their introduction or when they identify themselves during the conversation.",
-            }
-        ],
     }
 
     # Example 3: Complex Multi-Field Example
     print("\n=== Example 3: Complex Multi-Field Extraction ===")
 
-    # Complex example with multiple field types and relative date functionality
+    # Field definitions for complex example
+    complex_fields = [
+        {
+            "field_name": "agent_name",
+            "field_type": "string",
+            "format_example": "Jennifer Martinez",
+            "field_description": "The full name of the insurance agent, customer service representative, or company employee who is assisting the customer. Look for introductions like 'This is [Name] from [Company]' or when they identify themselves during the conversation.",
+        },
+        {
+            "field_name": "customer_name",
+            "field_type": "string",
+            "format_example": "Michael Torres",
+            "field_description": "The customer's full name or last name. This could be mentioned when the agent addresses them (e.g., 'Mr. Torres', 'Ms. Johnson') or when the customer introduces themselves. Look for formal address patterns and name references.",
+        },
+        {
+            "field_name": "customer_phone",
+            "field_type": "string",
+            "format_example": "415-555-9876",
+            "field_description": "The customer's current phone number mentioned during the call. Pay attention to any updates or corrections to phone numbers during the conversation. Look for 10-digit numbers in formats like 415-555-9876, (415) 555-9876, or similar patterns.",
+        },
+        {
+            "field_name": "customer_email",
+            "field_type": "string",
+            "format_example": "michael.torres@techcorp.com",
+            "field_description": "The customer's email address provided or confirmed during the conversation. Look for standard email format with @ symbol and domain. This might be mentioned for verification or contact purposes.",
+        },
+        {
+            "field_name": "incident_date",
+            "field_type": "string",
+            "format_example": "December 8, 2024",
+            "field_description": "The exact date when the incident, accident, or event being discussed occurred. This is the base date for calculating other related dates. Look for dates mentioned as 'accident date', 'incident date', or when the event happened.",
+        },
+        {
+            "field_name": "resolution_date",
+            "field_type": "string",
+            "format_example": "January 15, 2024",
+            "field_description": "The expected or promised date when the issue, claim, or matter will be resolved or completed. This could be mentioned as 'resolved by', 'completed by', 'finalized by', or similar future date references related to case resolution.",
+        },
+        {
+            "field_name": "appointment_date",
+            "field_type": "string",
+            "format_example": "December 13, 2024",
+            "field_description": "The calculated appointment date that is always scheduled for 'next Friday' relative to the incident date. When the conversation mentions 'next week Friday after the incident date' or 'Friday of the following week from the accident', calculate the actual date. For incident on December 3, 2024 (Tuesday), next week Friday would be December 13, 2024.",
+        },
+        {
+            "field_name": "company_name",
+            "field_type": "string",
+            "format_example": "AutoClaim Solutions",
+            "field_description": "The name of the company, organization, or business that the agent represents. This is typically mentioned in the agent's introduction like 'calling from [Company Name]' or 'I'm with [Company Name]'.",
+        },
+    ]
+
+    complex_processor = TranscriptProcessor(
+        api_key=api_key, fields=complex_fields, include_reasoning=True
+    )
+
+    # Complex example transcript data
     complex_input_data = {
         "messages": [
             {
@@ -116,56 +175,6 @@ def main():
                 "content": "That's correct - next week Friday after the incident date. And no, this will be with our specialist David Chen, not the previous adjuster. He'll meet you at the collision center on Oak Avenue at 10:30 AM.",
             },
         ],
-        "fields": [
-            {
-                "field_name": "agent_name",
-                "field_type": "string",
-                "format_example": "Jennifer Martinez",
-                "field_description": "The full name of the insurance agent, customer service representative, or company employee who is assisting the customer. Look for introductions like 'This is [Name] from [Company]' or when they identify themselves during the conversation.",
-            },
-            {
-                "field_name": "customer_name",
-                "field_type": "string",
-                "format_example": "Michael Torres",
-                "field_description": "The customer's full name or last name. This could be mentioned when the agent addresses them (e.g., 'Mr. Torres', 'Ms. Johnson') or when the customer introduces themselves. Look for formal address patterns and name references.",
-            },
-            {
-                "field_name": "customer_phone",
-                "field_type": "string",
-                "format_example": "415-555-9876",
-                "field_description": "The customer's current phone number mentioned during the call. Pay attention to any updates or corrections to phone numbers during the conversation. Look for 10-digit numbers in formats like 415-555-9876, (415) 555-9876, or similar patterns.",
-            },
-            {
-                "field_name": "customer_email",
-                "field_type": "string",
-                "format_example": "michael.torres@techcorp.com",
-                "field_description": "The customer's email address provided or confirmed during the conversation. Look for standard email format with @ symbol and domain. This might be mentioned for verification or contact purposes.",
-            },
-            {
-                "field_name": "incident_date",
-                "field_type": "string",
-                "format_example": "December 8, 2024",
-                "field_description": "The exact date when the incident, accident, or event being discussed occurred. This is the base date for calculating other related dates. Look for dates mentioned as 'accident date', 'incident date', or when the event happened.",
-            },
-            {
-                "field_name": "resolution_date",
-                "field_type": "string",
-                "format_example": "January 15, 2024",
-                "field_description": "The expected or promised date when the issue, claim, or matter will be resolved or completed. This could be mentioned as 'resolved by', 'completed by', 'finalized by', or similar future date references related to case resolution.",
-            },
-            {
-                "field_name": "appointment_date",
-                "field_type": "string",
-                "format_example": "December 13, 2024",
-                "field_description": "The calculated appointment date that is always scheduled for 'next Friday' relative to the incident date. When the conversation mentions 'next week Friday after the incident date' or 'Friday of the following week from the accident', calculate the actual date. For incident on December 3, 2024 (Tuesday), next week Friday would be December 13, 2024.",
-            },
-            {
-                "field_name": "company_name",
-                "field_type": "string",
-                "format_example": "AutoClaim Solutions",
-                "field_description": "The name of the company, organization, or business that the agent represents. This is typically mentioned in the agent's introduction like 'calling from [Company Name]' or 'I'm with [Company Name]'.",
-            },
-        ],
     }
 
     try:
@@ -183,7 +192,7 @@ def main():
 
         # Process complex example with reasoning
         print("\nProcessing complex multi-field example with reasoning...")
-        complex_result = processor_with_reasoning.process(complex_input_data)
+        complex_result = complex_processor.process(complex_input_data)
         print("Complex Extraction Result:")
         print(json.dumps(complex_result, indent=2))
 
